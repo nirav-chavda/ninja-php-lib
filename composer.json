@@ -1,0 +1,10 @@
+{
+    "name": "nirav/ninja-php",
+    "description": "php framework to built awesome websites easily :)",
+    "type": "library",
+    "authors": [{
+        "name": "nirav-chavda"
+    }],
+    "minimum-stability": "dev",
+    "require": {}
+}
