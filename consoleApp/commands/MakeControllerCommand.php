@@ -49,7 +49,7 @@ class MakeControllerCommand extends Command
            $name .= 'Controller';
         }
 
-        $root = substr(__DIR__,0,strpos(__DIR__,'\src'));
+        $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
 
         $filepath = $root . '\\app\\controllers\\';
 
@@ -68,7 +68,7 @@ class MakeControllerCommand extends Command
 
             try {
 
-                include_once $root . '\\src\\consoleApp\\templates.php';
+                include_once $root . '\\vendor\nirav\ninja-php\\consoleApp\\templates.php';
 
                 $controller_template = str_replace('Name',$name,$controller_template);
 

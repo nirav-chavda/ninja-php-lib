@@ -40,7 +40,7 @@ class MakeModelCommand extends Command
 
         $name = str_replace(' ', '', $name);
 
-        $root = substr(__DIR__,0,strpos(__DIR__,'\src'));
+        $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
 
         $filepath = $root . '\\app\\models\\';
 
@@ -50,7 +50,7 @@ class MakeModelCommand extends Command
 
             try {
 
-                include_once $root . '\\src\\consoleApp\\templates.php';
+                include_once $root . '\\vendor\\nirav\\ninja-php\\consoleApp\\templates.php';
 
                 $model_template = str_replace('Name',$name,$model_template);
 

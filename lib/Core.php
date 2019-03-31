@@ -14,13 +14,14 @@
         public function __construct() {
             
             $url = $this->getURL();
+            $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
 
             if($url[0]!='/') {
 
                 $url[0] = ucwords($url[0]) . 'Controller';
 
                 // check if controller exists
-                if(file_exists(__DIR__ . "\\..\\..\\app\\controllers\\" . ucwords($url[0]) . '.php')) {
+                if(file_exists($root . "\\app\\controllers\\" . ucwords($url[0]) . '.php')) {
 
                     // set contoller 
                     $this->currentController = ucwords($url[0]);
@@ -35,7 +36,7 @@
                 }
             }
 
-            require_once __DIR__ . "\\..\\..\\app\\controllers\\" . $this->currentController . ".php";
+            require_once $root . "\\app\\controllers\\" . $this->currentController . ".php";
 
             // Instantiate the controller class (Bydefault Home)
             $this->currentController = new $this->currentController;

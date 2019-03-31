@@ -8,8 +8,10 @@
 
         public function model($model) {
 
-            if(file_exists(__DIR__ . "\\..\\..\\app\\models\\" . $model . '.php')) {
-                require_once __DIR__ . "\\..\\..\\app\\models\\" . $model . '.php';
+            $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
+
+            if(file_exists($root . "\\app\\models\\" . $model . '.php')) {
+                require_once $root . "\\app\\models\\" . $model . '.php';
                 return new $model;
             } else {
                 die($model . ' model not exists');
@@ -18,8 +20,10 @@
 
         public function view($view, $data = []) {
 
-            if(file_exists(__DIR__ . "\\..\\..\\app\\views\\" . $view .'.php')) {
-                require_once __DIR__ . "\\..\\..\\app\\views\\" . $view .'.php';
+            $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
+
+            if(file_exists($root . "\\app\\views\\" . $view .'.php')) {
+                require_once $root . "\\app\\views\\" . $view .'.php';
             } else {
                 die($view . ' view not found');
             }
