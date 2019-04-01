@@ -13,6 +13,9 @@ class MakeModelCommand extends Command
     protected $commandArgumentName = "name";
     protected $commandArgumentDescription = "Name of the model";
 
+    protected $commandOptionName = "c"; // php command make:model Post --c
+    protected $commandOptionDescription = 'If set, it will create a controller for the model';  
+
     protected function configure()
     {
         $this
@@ -23,6 +26,12 @@ class MakeModelCommand extends Command
                 InputArgument::REQUIRED,
                 $this->commandArgumentDescription
             )
+            ->addOption(
+                $this->commandOptionName,
+                null,
+                InputOption::VALUE_NONE,
+                $this->commandOptionDescription
+             )
         ;
     }
 
@@ -45,7 +54,7 @@ class MakeModelCommand extends Command
         $filepath = $root . '\\app\\models\\';
 
         if(file_exists($filepath . $name . '.php')) {
-            $output->writeln('Model is already created');
+            $output->writeln('Model is already existed');
         } else {
 
             try {
@@ -59,6 +68,34 @@ class MakeModelCommand extends Command
                 file_put_contents($filepath, $model_template);
 
                 $output->writeln('Model is created.');
+
+                if ($input->getOption($this->commandOptionName)) {
+    
+                    if ( strpos($name,'Controller') === false ) {
+                        $name .= 'Controller';
+                    }
+    
+                    $filepath = $root . '\\app\\controllers\\';
+
+                    if(file_exists($filepath . $name . '.php')) {
+                        $output->writeln('Controller is already existed');
+                    } else {
+
+                        try {
+
+                            $controller_template = str_replace('Name',$name,$controller_template);
+
+                            $filepath = $filepath . $name . '.php';
+
+                            file_put_contents($filepath, $controller_template);
+
+                            $output->writeln('Controller is created.');
+                        }
+                        catch (\Exception $e) {
+                            $output->writeln($e);
+                        }
+                    }
+                }
             }
             catch (\Exception $e) {
                 $output->writeln($e);
