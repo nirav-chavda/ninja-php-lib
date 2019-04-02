@@ -19,7 +19,8 @@ class Name {
     public function __construct() {
         // taking connection
         \$this->db = new Model;
-        \$this->table = 'users';
+        // name of the associated table
+        \$this->table = '';
     }
 
     public function insert(\$data) {
