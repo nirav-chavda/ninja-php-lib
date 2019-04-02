@@ -20,6 +20,8 @@
         private $stmt;
         private $error;
 
+        protected $table;
+
         public function __construct() {
             
             $options = array(
@@ -65,7 +67,7 @@
                 }
             }
 
-            $this->stmt->bind($param,$value,$type);
+            $this->stmt->bindValue($param,$value,$type);
         }
 
         public function execute() {

@@ -16,11 +16,34 @@ $model_template =
             
 class Name {
 
-    private \$db;
-
     public function __construct() {
         // taking connection
         \$this->db = new Model;
+        \$this->table = 'users';
     }
 
+    public function insert(\$data) {
+            
+        \$sql = 'INSERT INTO '. \$this->table . '(';
+        \$values = ' VALUES(';
+        
+        foreach (\$data as \$key => \$value) {
+            \$sql .= \$key . ',';
+            \$values .= ':' . \$key . ',';
+        }
+
+        \$sql = rtrim(\$sql,',');
+        \$values = rtrim(\$values,',');
+
+        \$sql .= ')';
+        \$values .= ')';
+
+        \$sql .= \$values;
+
+        \$this->db->query(\$sql);
+        foreach (\$data as \$key => \$value) {
+            \$this->db->bind(':' . \$key , \$value);
+        }
+        \$this->db->execute();
+    }
 }";
