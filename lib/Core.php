@@ -99,9 +99,10 @@
             $controller_name = str_replace('/','\\',$controller_name);
 
             if(file_exists($root . "\\app\\controllers\\" . $controller_name . '.php')) {
-
-                $this->currentController = substr($controller_name,strripos($controller_name,'\\')+1);
-            
+                if(strpos($controller_name,'\\'))
+                    $this->currentController = substr($controller_name,strripos($controller_name,'\\')+1);
+                else
+                    $this->currentController = $controller_name;            
             } else {
                 $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
                 header($protocol . ' 404 ' . 'Controller ' . $url[0] . ' Not Found');
