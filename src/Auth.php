@@ -37,8 +37,7 @@ class Auth {
     public static function deAuth() {
 
         if(Session::has('auth')) {
-            Session::unset('auth');
-            Session::unset('user_id');
+            Session::unsetAll();
             Session::terminate();
         } else {
             die('Auth not setted');

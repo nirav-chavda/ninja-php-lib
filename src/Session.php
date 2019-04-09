@@ -45,6 +45,10 @@ class Session {
     }
 
     public function unset($key) {
-        session_unset($_SESSION[$key]);
+        unset($_SESSION[$key]);
+    }
+
+    public function unsetAll() {
+        session_unset();
     }
 }
