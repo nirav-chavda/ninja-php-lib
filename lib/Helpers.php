@@ -15,3 +15,7 @@
     function app_path() {
         return APP_ROOT . 'app/';
     }
+
+    function env($val,$default="") {
+        return getenv($val)=="" ? $default : getenv($val);
+    }

@@ -7,7 +7,7 @@ class Name extends Controller {
 
     public function __construct() {
         # name of Model in the blanks
-        //\$this->____Model = \$this->model('____');    
+        # \$this->____Model = \$this->model('____');    
     }
 }";
 
@@ -17,9 +17,9 @@ $model_template =
 class Name {
 
     public function __construct() {
-        // taking connection
+        # taking connection
         \$this->db = new Model;
-        // name of the associated table
+        # name of the associated table
         \$this->table = '';
     }
 
@@ -46,5 +46,29 @@ class Name {
             \$this->db->bind(':' . \$key , \$value);
         }
         \$this->db->execute();
+    }
+
+    public function get(\$key=null, \$name=null) {
+        if( empty(\$key) || empty(\$name) ) {
+            \$sql = 'SELECT * FROM ' . \$this->table;
+            \$this->db->query(\$sql);
+            return \$this->db->get();
+        } else {
+            \$sql = 'SELECT * FROM ' . \$this->table . ' WHERE ' . \$key . ' = :' . \$key;
+            \$this->db->query(\$sql);
+            \$this->db->bind(':' . \$key ,\$name);
+            return \$this->db->get();
+        }        
+    }
+
+    public function first(\$key, \$name) {
+        if( empty(\$key) || empty(\$name) ) {
+            die('No key or name passed');
+        } else {
+            \$sql = 'SELECT * FROM ' . \$this->table . ' WHERE ' . \$key . ' = :' . \$key;
+            \$this->db->query(\$sql);
+            \$this->db->bind(':' . \$key ,\$name);
+            return \$this->db->first();
+        }        
     }
 }";

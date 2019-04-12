@@ -49,7 +49,7 @@
             $this->stmt = $this->dbh->prepare($sql);
         }
 
-        public function bind($param, $value, $type=null) {
+        public function bind($param, $value, $type=NULL) {
 
             if(is_null($type)) {
                 switch(true) {
