@@ -18,7 +18,7 @@ class Name {
 
     public function __construct() {
         # taking connection
-        \$this->db = new Model;
+        \$this->db = new DB;
         # name of the associated table
         \$this->table = '';
     }

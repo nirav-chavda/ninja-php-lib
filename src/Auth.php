@@ -3,12 +3,12 @@
 namespace Ninja;
 
 use Ninja\Session;
-use Model;
+use DB;
 
 class Auth {
 
     public static function user() {
-        $db = new Model;
+        $db = new DB;
         $db->query('SELECT * FROM users WHERE id = :id');
         $db->bind(':id',Session::get('user_id'));
         return $db->first();

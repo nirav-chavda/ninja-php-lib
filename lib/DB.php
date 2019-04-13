@@ -7,7 +7,7 @@
      * RETURNS ROWS AND RESULTS
      */
 
-    class Model {
+    class DB {
 
         private $driver = DB_DRIVER;
         private $host = DB_HOST;
