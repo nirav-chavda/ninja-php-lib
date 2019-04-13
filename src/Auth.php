@@ -19,10 +19,6 @@ class Auth {
     }
 
     public static function set($email) {
-        $db = new Model;
-        $db->query('SELECT id FROM users WHERE email = :email');
-        $db->bind(':email',$email);
-        $row = $db->first();
         Session::set('user_id',$row->id);
         Session::set('auth',true);
     }
