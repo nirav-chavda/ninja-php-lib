@@ -18,8 +18,8 @@ class Auth {
         return Session::get('user_id');    
     }
 
-    public static function set($email) {
-        Session::set('user_id',$row->id);
+    public static function set($id) {
+        Session::set('user_id',$id);
         Session::set('auth',true);
     }
 
