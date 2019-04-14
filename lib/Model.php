@@ -40,7 +40,7 @@ class Model {
         }        
     }
 
-    public function first($key, $name) {
+    public function first($key=null, $name=null) {
         if( empty($key) || empty($name) ) {
             $sql = 'SELECT * FROM ' . $this->table;
             $this->db->query($sql);
