@@ -38,6 +38,7 @@
                     $count = 0;
                     $route_url = str_split($value[1]);      // Array of defined route
                     $passed_url = str_split($url);          // Array of passed route
+                    $method = $value[0];
 
                     for($i=0;$i<strlen($value[1]);$i++) {
                         if($route_url[$i]!=$passed_url[$i])
@@ -72,15 +73,35 @@
                     }
                     
                     $data = array();
+                    $data_values = array();
+                    
+                    # creates array key from route
+                    for($i=0;$i<count($route_url);$i++) {
+                        if($route_url[$i]==':') {
+                            $i++;
+                            $j = 0;
+                            $word = array();
+                            while($i<count($route_url) && $route_url[$i]!='/') {
+                                $word[$j++] = $route_url[$i++];
+                            }
+                            $data[implode($word,'')] = "";
+                            --$i;
+                        }
+                    }
 
                     for($i=0;$i<count($passed_values);$i++) {
                         if($i<count($passed_values)-1)
-                            $data[$i] = substr($url,$passed_values[$i]+1,$passed_values[$i+1] - ($passed_values[$i]+1));
+                            $data_values[$i] = substr($url,$passed_values[$i]+1,$passed_values[$i+1] - ($passed_values[$i]+1));
                         else
-                            $data[$i] = substr($url,$passed_values[$i]+1);
+                            $data_values[$i] = substr($url,$passed_values[$i]+1);
                     }
 
-                    if($value[0]==$_SERVER['REQUEST_METHOD']) {
+                    $temp_counter=0;
+                    foreach ($data as $key => $val) {
+                        $data[$key] = $data_values[$temp_counter++];
+                    }
+
+                    if($method==$_SERVER['REQUEST_METHOD']) {
                         $route = $value;
                         $this->params = $data;
                     }
@@ -105,7 +126,7 @@
                     $this->currentController = $controller_name;            
             } else {
                 $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-                header($protocol . ' 404 ' . 'Controller ' . $url[0] . ' Not Found');
+                header($protocol . ' 404 ' . 'Controller ' . $url . ' Not Found');
                 exit(0);
             }
 
