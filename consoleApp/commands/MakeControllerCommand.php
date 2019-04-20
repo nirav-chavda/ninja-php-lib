@@ -61,6 +61,7 @@ class MakeControllerCommand extends Command
         $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));            
 
         $filepath = $root . '\\app\\controllers\\';
+        $namespace = "App\\Controllers\\";
 
         if($size!=1) {
             for($i=0;$i<$size-1;$i++) {
@@ -68,8 +69,11 @@ class MakeControllerCommand extends Command
                     mkdir($filepath . $args[$i], 0777, true);
                 }
                 $filepath .= $args[$i] . '\\';
+                $namespace .= $args[$i] . '\\';
             }
         }
+
+        $namespace = rtrim($namespace,'\\');
 
         if(file_exists($filepath . $name . '.php')) {
             $output->writeln('Controller is already existed');
@@ -79,7 +83,9 @@ class MakeControllerCommand extends Command
 
                 include_once $root . '\\vendor\nirav\ninja-php\\consoleApp\\templates.php';
 
-                $controller_template = str_replace('Name',$name,$controller_template);
+                $controller_template = str_replace('*ClassName*',$name,$controller_template);
+
+                $controller_template = str_replace('*Namespace*',$namespace,$controller_template);
 
                 $filepath = $filepath . $name . '.php';
 

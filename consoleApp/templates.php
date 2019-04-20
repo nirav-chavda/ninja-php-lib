@@ -2,8 +2,12 @@
 
 $controller_template = 
 "<?php
-            
-class Name extends Controller {
+          
+namespace *Namespace*;
+
+use Controller;
+
+class *ClassName* extends Controller {
 
     public function __construct() {
         # name of Model in the blanks

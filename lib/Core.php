@@ -119,20 +119,17 @@
 
             $controller_name = str_replace('/','\\',$controller_name);
 
-            if(file_exists($root . "\\app\\controllers\\" . $controller_name . '.php')) {
-                if(strpos($controller_name,'\\'))
-                    $this->currentController = substr($controller_name,strripos($controller_name,'\\')+1);
-                else
-                    $this->currentController = $controller_name;            
-            } else {
+            if(!file_exists($root . "\\app\\controllers\\" . $controller_name . '.php')) {
                 $protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
                 header($protocol . ' 404 ' . 'Controller ' . $url . ' Not Found');
                 exit(0);
             }
 
-            require_once $root . "\\app\\controllers\\" . $controller_name . ".php";
+            $this->currentController = $controller_name;
 
-            // Instantiate the controller class (Bydefault Home)
+            $this->currentController = 'App\\Controllers\\'.$this->currentController; 
+
+            # Instantiate the controller class (Bydefault Home)                        
             $this->currentController = new $this->currentController;
 
             if(method_exists($this->currentController,$method_name)) {
