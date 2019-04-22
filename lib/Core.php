@@ -139,6 +139,9 @@
                 exit(0);
             }
 
+            Ninja\Session::set('referer', Ninja\Session::has('current_uri') ? Ninja\Session::get('current_uri') : '/');
+            Ninja\Session::set('current_uri', ltrim($url,'/'));
+
             call_user_func_array([$this->currentController,$this->currentMethod],[$this->params]);
         }
 
