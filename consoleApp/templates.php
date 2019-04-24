@@ -31,3 +31,20 @@ class Name extends Model {
     protected \$fillable = [];
 
 }";
+
+$table_template =
+'<?php
+
+require __DIR__ ."\..\bootstrap.php";
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+Capsule::schema()->dropIfExists(\'\');
+
+Capsule::schema()->create(\'\', function ($table) {
+
+    $table->increments("id");
+
+    $table->timestamps();
+
+});';

@@ -33,10 +33,7 @@ class MakeControllerCommand extends Command
         $name = str_split($args);
 
         if( in_array('\\',$name) ) {
-        
             $args = str_replace('\\','/',$args);
-            //$output->writeln('Controller Name Should Not Have Any Special Character !');
-        
         } 
 
         $args = explode('/',$args);
@@ -76,7 +73,7 @@ class MakeControllerCommand extends Command
         $namespace = rtrim($namespace,'\\');
 
         if(file_exists($filepath . $name . '.php')) {
-            $output->writeln('Controller is already existed');
+            $output->writeln('Controller is already exists');
         } else {
 
             try {

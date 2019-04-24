@@ -13,8 +13,14 @@ class MakeModelCommand extends Command
     protected $commandArgumentName = "name";
     protected $commandArgumentDescription = "Name of the model";
 
-    protected $commandOptionName = "c"; // php command make:model Post --c
-    protected $commandOptionDescription = 'If set, it will create a controller for the model';  
+    protected $commandOptionName_Controller = "c"; # php command make:model Post --c
+    protected $commandOptionDescription_Controller = 'If set, it will create a controller for the model';
+
+    protected $commandOptionName_Table = "t"; # php command make:model Post --t
+    protected $commandOptionDescription_Table = 'If set, it will create a table for the model';
+
+    protected $commandOptionName_ControllerTable = "ct"; # php command make:model Post --ct
+    protected $commandOptionDescription_ControllerTable = 'If set, it will create a controller and table for the model';
 
     protected function configure()
     {
@@ -27,10 +33,22 @@ class MakeModelCommand extends Command
                 $this->commandArgumentDescription
             )
             ->addOption(
-                $this->commandOptionName,
+                $this->commandOptionName_Controller,
                 null,
                 InputOption::VALUE_NONE,
-                $this->commandOptionDescription
+                $this->commandOptionDescription_Controller
+             )
+             ->addOption(
+                $this->commandOptionName_Table,
+                null,
+                InputOption::VALUE_NONE,
+                $this->commandOptionDescription_Table
+             )
+             ->addOption(
+                $this->commandOptionName_ControllerTable,
+                null,
+                InputOption::VALUE_NONE,
+                $this->commandOptionDescription_ControllerTable
              )
         ;
     }
@@ -54,7 +72,7 @@ class MakeModelCommand extends Command
         $filepath = $root . '\\app\\models\\';
 
         if(file_exists($filepath . $name . '.php')) {
-            $output->writeln('Model is already existed');
+            $output->writeln('Model is already exists');
         } else {
 
             try {
@@ -69,37 +87,73 @@ class MakeModelCommand extends Command
 
                 $output->writeln('Model is created.');
 
-                if ($input->getOption($this->commandOptionName)) {
-    
-                    if ( strpos($name,'Controller') === false ) {
-                        $name .= 'Controller';
-                    }
-    
-                    $filepath = $root . '\\app\\controllers\\';
-
-                    $namespace = "App\\Controllers";
-
-                    if(file_exists($filepath . $name . '.php')) {
-                        $output->writeln('Controller is already existed');
-                    } else {
-
-                        try {
-
-                            $controller_template = str_replace('*ClassName*',$name,$controller_template);
-
-                            $controller_template = str_replace('*Namespace*',$namespace,$controller_template);
-
-                            $filepath = $filepath . $name . '.php';
-
-                            file_put_contents($filepath, $controller_template);
-
-                            $output->writeln('Controller is created.');
-                        }
-                        catch (\Exception $e) {
-                            $output->writeln($e);
-                        }
-                    }
+                if ($input->getOption($this->commandOptionName_Controller)) {
+                    $this->createController($input, $output, $name, $root, $controller_template);
                 }
+                else if($input->getOption($this->commandOptionName_Table)) {
+                    $this->createTable($input, $output, $name, $root, $table_template);
+                }
+                else if($input->getOption($this->commandOptionName_ControllerTable)) {
+                    $this->createController($input, $output, $name, $root, $controller_template);
+                    $this->createTable($input, $output, $name, $root, $table_template);                    
+                }
+            }
+            catch (\Exception $e) {
+                $output->writeln($e);
+            }
+        }
+    }
+
+    protected function createController(InputInterface $input, OutputInterface $output,$name,$root, $controller_template) {
+        
+        if ( strpos($name,'Controller') === false ) {
+            $name .= 'Controller';
+        }
+
+        $filepath = $root . '\\app\\controllers\\';
+
+        $namespace = "App\\Controllers";
+
+        if(file_exists($filepath . $name . '.php')) {
+            $output->writeln('Controller is already exists');
+        } else {
+
+            try {
+
+                $controller_template = str_replace('*ClassName*',$name,$controller_template);
+
+                $controller_template = str_replace('*Namespace*',$namespace,$controller_template);
+
+                $filepath = $filepath . $name . '.php';
+
+                file_put_contents($filepath, $controller_template);
+
+                $output->writeln('Controller is created.');
+            }
+            catch (\Exception $e) {
+                $output->writeln($e);
+            }
+            
+        }
+    }
+
+    protected function createTable(InputInterface $input, OutputInterface $output,$name,$root, $table_template) {
+        
+        $filepath = $root . '\\app\\database\\';
+
+        if(file_exists($filepath . $name . '.php')) {
+            $output->writeln('Table is already exists');
+        } else {
+
+            try {
+
+                include_once $root . '\\vendor\nirav\ninja-php\\consoleApp\\templates.php';
+
+                $filepath = $filepath . $name . '.php';
+
+                file_put_contents($filepath, $table_template);
+
+                $output->writeln('Table is created.');
             }
             catch (\Exception $e) {
                 $output->writeln($e);
