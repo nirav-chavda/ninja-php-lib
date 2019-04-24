@@ -77,13 +77,17 @@ class MakeModelCommand extends Command
     
                     $filepath = $root . '\\app\\controllers\\';
 
+                    $namespace = "App\\Controllers";
+
                     if(file_exists($filepath . $name . '.php')) {
                         $output->writeln('Controller is already existed');
                     } else {
 
                         try {
 
-                            $controller_template = str_replace('Name',$name,$controller_template);
+                            $controller_template = str_replace('*ClassName*',$name,$controller_template);
+
+                            $controller_template = str_replace('*Namespace*',$namespace,$controller_template);
 
                             $filepath = $filepath . $name . '.php';
 
