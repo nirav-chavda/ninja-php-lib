@@ -9,24 +9,25 @@ use Controller;
 
 class *ClassName* extends Controller {
 
-    public function __construct() {
-        # name of Model in the blanks
-        # \$this->model = \$this->model('____');    
-    }
 }";
 
 $model_template = 
 "<?php
             
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model as Model;
+
 class Name extends Model {
 
-    protected \$db;
-    protected \$table;
+    protected \$table = '';
 
-    public function __construct() {
-        # taking connection
-        \$this->db = new DB;
-        # name of the associated table
-        \$this->table = '';
-    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+
+    protected \$fillable = [];
+
 }";

@@ -16,10 +16,6 @@
         return APP_ROOT . 'app/';
     }
 
-    function env($val,$default="") {
-        return getenv($val)=="" ? $default : getenv($val);
-    }
-
     function redirect_back() {
 
         if(Ninja\Session::has('referer'))

@@ -3,15 +3,13 @@
 namespace Ninja;
 
 use Ninja\Session;
-use DB;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Auth {
 
     public static function user() {
-        $db = new DB;
-        $db->query('SELECT * FROM users WHERE id = :id');
-        $db->bind(':id',Session::get('user_id'));
-        return $db->first();
+        $user = Capsule::table('users')->where('id', Session::get('user_id'))->first();
+        return $user;
     }
 
     public static function id() {
