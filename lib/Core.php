@@ -1,4 +1,7 @@
 <?php
+
+use App\Middlewares\VerifyCSRFToken;
+
     /*
      * App Core Class
      * Creates URL & loads core controller
@@ -29,6 +32,13 @@
 
                 if($pos == false) {
                     if($value[0]==$_SERVER['REQUEST_METHOD'] && $value[1]==$url) {
+                        if(strtolower($value[0])=='post') {
+                            if(!in_array($value[1], ($obj = new VerifyCSRFToken)->except)) {
+                                if(!Ninja\CSRF::validate()) {
+                                    die("Session Timeout");
+                                }
+                            }
+                        }
                         $route = $value;
                         $this->params = [];
                         break;
@@ -36,8 +46,8 @@
                 } else {
 
                     $count = 0;
-                    $route_url = str_split($value[1]);      // Array of defined route
-                    $passed_url = str_split($url);          // Array of passed route
+                    $route_url = str_split($value[1]);      # Array of defined route
+                    $passed_url = str_split($url);          # Array of passed route
                     $method = $value[0];
 
                     for($i=0;$i<strlen($value[1]);$i++) {
@@ -50,7 +60,7 @@
                         continue;
                     }
 
-                    $count=$count-2;  // count will be on : , we have to count slashes so we need to go before slash
+                    $count=$count-2;  # count will be on : , we have to count slashes so we need to go before slash
 
                     $route_count = 0;
                     $passed_count = 0;
@@ -102,6 +112,13 @@
                     }
 
                     if($method==$_SERVER['REQUEST_METHOD']) {
+                        if(strtolower($method)=='post') {
+                            if(!in_array($route[1], ($obj = new VerifyCSRFToken)->except)) {
+                                if(!Ninja\CSRF::validate()) {
+                                    die("Session Timeout");
+                                }
+                            }
+                        }
                         $route = $value;
                         $this->params = $data;
                     }

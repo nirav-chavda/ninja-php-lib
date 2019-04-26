@@ -27,3 +27,7 @@
         
         redirect($referer);
     }
+
+    function csrf_field() {
+        echo '<input type="hidden" value="' . Ninja\CSRF::getToken() . '" name="random_token">';
+    }
