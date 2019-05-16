@@ -1,31 +1,41 @@
 <?php
-    /* 
-     * Base Controller
-     * Loads the models and views
-     */
-    
-    class Controller {
+/* 
+ * Base Controller
+ * Loads the models and views
+*/
 
-        public function model($model) {
+class Controller
+{
+    private $middlewares = array();
+    private $except = array();
 
-            $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
+    public function middleware($values, $except = '')
+    {
+        if (gettype($values) == 'string')
+            $this->middlewares[0] = $values;
+        else
+            $this->middlewares = $values;
+        if (isset($except['except']) && count($except['except']) > 0)
+            $this->except = $except['except'];
+    }
 
-            if(file_exists($root . "\\app\\models\\" . $model . '.php')) {
-                require_once $root . "\\app\\models\\" . $model . '.php';
-                return new $model;
-            } else {
-                die($model . ' model not exists');
-            }
-        }
+    public function getMiddlewares()
+    {
+        return [
+            'middlewares' => $this->middlewares,
+            'except' => $this->except
+        ];
+    }
 
-        public function view($view, $data = []) {
+    public function view($view, $data = [])
+    {
 
-            $root = substr(__DIR__,0,strpos(__DIR__,'\vendor'));
+        $root = substr(__DIR__, 0, strpos(__DIR__, '\vendor'));
 
-            if(file_exists($root . "\\app\\views\\" . $view .'.php')) {
-                require_once $root . "\\app\\views\\" . $view .'.php';
-            } else {
-                die($view . ' view not found');
-            }
+        if (file_exists($root . "\\app\\views\\" . $view . '.php')) {
+            require_once $root . "\\app\\views\\" . $view . '.php';
+        } else {
+            die($view . ' view not found');
         }
     }
+}

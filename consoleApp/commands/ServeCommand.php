@@ -6,7 +6,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ServeCommand extends Command {
+class ServeCommand extends Command
+{
 
     protected $commandName = 'serve';
     protected $commandDescription = "It will start a local development server";
@@ -15,16 +16,14 @@ class ServeCommand extends Command {
     {
         $this
             ->setName($this->commandName)
-            ->setDescription($this->commandDescription)
-        ;
+            ->setDescription($this->commandDescription);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $output->writeln('Local Development Server Started On:  localhost:8000');
+        $output->writeln('Magic Happens At - 127.0.0.1:8000');
 
         shell_exec('php -S 127.0.0.1:8000 -t public/');
-        
     }
 }
