@@ -182,7 +182,7 @@ class Core
             }
             # Applying Auth middleware in all functions
             if (strpos($controller_name, 'Auth\\') > 0) {
-                # if there is no middleware setted then auth will be applied
+                # if there is no middleware set then auth will be applied
                 if (count($middlewares) == 0) {
                     new $dictionary['auth'];
                 }

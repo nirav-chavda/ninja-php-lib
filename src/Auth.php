@@ -34,7 +34,7 @@ class Auth {
             Session::unsetAll();
             Session::terminate();
         } else {
-            die('Auth not setted');
+            die('Auth not set');
         }
     }
 }
