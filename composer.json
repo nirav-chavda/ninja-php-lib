@@ -5,6 +5,5 @@
     "authors": [{
         "name": "nirav-chavda"
     }],
-    "minimum-stability": "dev",
     "require": {}
 }
