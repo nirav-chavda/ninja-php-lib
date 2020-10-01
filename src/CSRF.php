@@ -14,6 +14,14 @@ class CSRF {
             return static::createToken();
         }
     }
+    public static function setToken() {
+
+        if(Session::has('token_id')) { 
+            return Session::get('token_id');
+        } else {
+            return static::createToken();
+        }
+    }
 
     public static function validate() {
 
