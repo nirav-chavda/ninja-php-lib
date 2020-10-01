@@ -26,6 +26,19 @@ class MakeTableCommand extends Command
         ;
     }
 
+    protected function configureManager()
+    {
+        $this
+            ->setName($this->commandName)
+            ->setDescription($this->commandDescription)
+            ->addArgument(
+                $this->commandArgumentName,
+                InputArgument::REQUIRED,
+                $this->commandArgumentDescription
+            )
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $name = $input->getArgument($this->commandArgumentName);
