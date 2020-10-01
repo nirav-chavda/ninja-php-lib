@@ -16,8 +16,12 @@ class DBMoveCommand extends Command {
         $this
             ->setName($this->commandName)
             ->setDescription($this->commandDescription)
+            ->addArgument(
+                $this->commandArgumentName,
+                InputArgument::REQUIRED
+            )
         ;
-    }
+    
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
