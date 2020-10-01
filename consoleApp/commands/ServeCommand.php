@@ -26,4 +26,11 @@ class ServeCommand extends Command
 
         shell_exec('php -S 127.0.0.1:8000 -t public/');
     }
+    protected function executeCommand(InputInterface $input, OutputInterface $output)
+    {
+
+        $output->writeln('Magic Happens At - 127.0.0.1:8000');
+
+        shell_exec('php -S 127.0.0.1:8000 -t public/');
+    }
 }
