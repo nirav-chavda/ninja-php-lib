@@ -32,6 +32,15 @@ class CSRF {
             return false;   
         }
     }
+     public static function validateSpecialToken() {
+
+        if(isset($_POST['random_token']) && Session::has('token_id') && ($_POST['random_token'] == Session::get('token_id'))) {
+            static::dropToken();
+            return true;
+        } else {
+            return false;   
+        }
+    }
 
     public static function dropToken() {
         Session::unset('token_id');
