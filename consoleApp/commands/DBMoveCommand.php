@@ -18,8 +18,7 @@ class DBMoveCommand extends Command {
             ->setDescription($this->commandDescription)
             ->addArgument(
                 $this->commandArgumentName,
-                InputArgument::REQUIRED,
-                $this->commandArgumentDescription
+                InputArgument::REQUIRED
             )
         ;
     
