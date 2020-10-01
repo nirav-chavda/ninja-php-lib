@@ -90,6 +90,9 @@ class MakeModelCommand extends Command
                 if ($input->getOption($this->commandOptionName_Controller)) {
                     $this->createController($input, $output, $name, $root, $controller_template);
                 }
+                else if($input->getOption($this->commandOptionName_Table)) {
+                    $this->createTable($input, $output, $name, $root, $table_template);
+                }
                 else if($input->getOption($this->commandOptionName_ControllerTable)) {
                     $this->createController($input, $output, $name, $root, $controller_template);
                     $this->createTable($input, $output, $name, $root, $table_template);                    
@@ -139,7 +142,6 @@ class MakeModelCommand extends Command
         $filepath = $root . '\\app\\database\\';
 
         if(file_exists($filepath . $name . '.php')) {
-            $this->createTable($input, $output, $name, $root, $table_template);
             $output->writeln('Table is already exists');
         } else {
 

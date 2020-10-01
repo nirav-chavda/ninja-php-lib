@@ -11,11 +11,6 @@ class Auth {
         $user = Capsule::table('users')->where('id', Session::get('user_id'))->first();
         return $user;
     }
-    
-    public static function get($id) {
-        Session::get('user_id',$id);
-        Session::get('auth',true);
-    }
 
     public static function id() {
         return Session::get('user_id');    
@@ -42,5 +37,4 @@ class Auth {
             die('Auth not set');
         }
     }
-   
 }

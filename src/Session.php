@@ -24,12 +24,7 @@ class Session {
     public static function has($name) {
         if(isset($_SESSION[$name])) {
             return true;
-        }
-        if else(isset($_SESSION[$name])) {
-                $message = $_SESSION[$name];
-                unset($_SESSION[$name]);
-                return $message;
-            else {
+        } else {
             return false;
         }
     }
