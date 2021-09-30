@@ -26,7 +26,7 @@ class Core
         $route = array();
 
         if (strpos($url, '/:') != false) {
-            die('Invalid URL passed');
+            panic('Invalid URL passed');
         }
 
         foreach ($routes as $value) {
@@ -39,7 +39,7 @@ class Core
                     if (strtolower($value[0]) == 'post') {
                         if (!in_array($value[1], ($obj = new VerifyCSRFToken)->except)) {
                             if (!Ninja\CSRF::validate()) {
-                                die("Session Timeout");
+                                panic("Session Timeout");
                             }
                         }
                     }
@@ -120,7 +120,7 @@ class Core
                     if (strtolower($method) == 'post') {
                         if (!in_array($route[1], ($obj = new VerifyCSRFToken)->except)) {
                             if (!Ninja\CSRF::validate()) {
-                                die("Session Timeout");
+                                panic("Session Timeout");
                             }
                         }
                     }
@@ -131,7 +131,7 @@ class Core
         }
 
         if (count($route) < 1) {
-            die("No Such Route Defined");
+            panic("No Such Route Defined");
         }
 
         $method = $route[0];
@@ -162,7 +162,7 @@ class Core
             if (method_exists($this->currentController, $method_name)) {
                 $this->currentMethod = $method_name;
             } else {
-                die("Method Not Exists");
+                panic("Method Not Exists");
             }
 
             # Getting Dictionary for Middleware
