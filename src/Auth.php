@@ -60,7 +60,7 @@ class Auth {
             Session::unsetAll();
             Session::terminate();
         } else {
-            die('Auth not set');
+            panic('Auth not set');
         }
     }
    
