@@ -7,17 +7,17 @@ use App\Middlewares\VerifyCSRFToken;
  * Creates URL & loads core controller
  * URL Format - /controller/method/params
 */
-
 class Core
 {
-
     protected $currentController = 'HomeController';
     protected $currentMethod = 'index';
     protected $params = [];
 
+    /**
+     * Constructor method
+     */
     public function __construct()
     {
-
         $root = substr(__DIR__, 0, strpos(__DIR__, '\vendor'));
 
         require_once $root . '\\app\\routes.php';
@@ -156,14 +156,13 @@ class Core
 
             $this->currentController = 'App\\Controllers\\' . $this->currentController;
 
-            # Instantiate the controller class (Bydefault Home)                        
+            // Instantiate the controller class (By default Home)                        
             $this->currentController = new $this->currentController;
 
             if (method_exists($this->currentController, $method_name)) {
                 $this->currentMethod = $method_name;
             } else {
-                echo "Method Not Exists";
-                exit(0);
+                die("Method Not Exists");
             }
 
             # Getting Dictionary for Middleware
@@ -211,6 +210,11 @@ class Core
         }
     }
 
+    /**
+     * getURL
+     * get request url
+     * @return string
+     */
     public function getURL()
     {
         $url = rtrim($_SERVER['REQUEST_URI'], '/');
