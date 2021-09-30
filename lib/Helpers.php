@@ -56,3 +56,13 @@
     function csrf_field() {
         echo '<input type="hidden" value="' . Ninja\CSRF::getToken() . '" name="random_token">';
     }
+
+    /**
+     * panic
+     * throws new exceptions with passed message
+     * @param string $message
+     * @return void
+     */
+    function panic($message) {
+        throw new Exception($message);
+    }
