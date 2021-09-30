@@ -23,7 +23,7 @@ class Session {
                 unset($_SESSION[$name]);
                 return $message;
             } else {
-                die('Session Variable Name is Not Set');
+                panic('Session Variable Name is Not Set');
             }
         }
     }
