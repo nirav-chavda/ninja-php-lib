@@ -2,13 +2,16 @@
 
 class Request
 {
-
     function __construct()
     {
         $this->bootstrapSelf();
     }
 
-    # this will set all SERVER COOKIE and FILES properties as a data members of the class
+    /**
+     * bootstrapSelf
+     * this will set all SERVER COOKIE and FILES properties as a data members of the class
+     * @return void
+     */ 
     private function bootstrapSelf()
     {
         $unsafe_vars = ['DB_CONNECTION', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USERNAME', 'DB_PASSWORD'];
@@ -25,6 +28,11 @@ class Request
         }
     }
 
+    /**
+     * getBody
+     * this will return the body of the request
+     * @return null|array
+     */ 
     public function getBody()
     {
         if ($this->REQUEST_METHOD == "GET") {
