@@ -7,17 +7,17 @@ use App\Middlewares\VerifyCSRFToken;
  * Creates URL & loads core controller
  * URL Format - /controller/method/params
 */
-
 class Core
 {
-
     protected $currentController = 'HomeController';
     protected $currentMethod = 'index';
     protected $params = [];
 
+    /**
+     * Constructor method
+     */
     public function __construct()
     {
-
         $root = substr(__DIR__, 0, strpos(__DIR__, '\vendor'));
 
         require_once $root . '\\app\\routes.php';
@@ -26,7 +26,7 @@ class Core
         $route = array();
 
         if (strpos($url, '/:') != false) {
-            die('Invalid URL passed');
+            panic('Invalid URL passed');
         }
 
         foreach ($routes as $value) {
@@ -39,7 +39,7 @@ class Core
                     if (strtolower($value[0]) == 'post') {
                         if (!in_array($value[1], ($obj = new VerifyCSRFToken)->except)) {
                             if (!Ninja\CSRF::validate()) {
-                                die("Session Timeout");
+                                panic("Session Timeout");
                             }
                         }
                     }
@@ -120,7 +120,7 @@ class Core
                     if (strtolower($method) == 'post') {
                         if (!in_array($route[1], ($obj = new VerifyCSRFToken)->except)) {
                             if (!Ninja\CSRF::validate()) {
-                                die("Session Timeout");
+                                panic("Session Timeout");
                             }
                         }
                     }
@@ -131,7 +131,7 @@ class Core
         }
 
         if (count($route) < 1) {
-            die("No Such Route Defined");
+            panic("No Such Route Defined");
         }
 
         $method = $route[0];
@@ -156,14 +156,13 @@ class Core
 
             $this->currentController = 'App\\Controllers\\' . $this->currentController;
 
-            # Instantiate the controller class (Bydefault Home)                        
+            // Instantiate the controller class (By default Home)                        
             $this->currentController = new $this->currentController;
 
             if (method_exists($this->currentController, $method_name)) {
                 $this->currentMethod = $method_name;
             } else {
-                echo "Method Not Exists";
-                exit(0);
+                panic("Method Not Exists");
             }
 
             # Getting Dictionary for Middleware
@@ -211,6 +210,11 @@ class Core
         }
     }
 
+    /**
+     * getURL
+     * get request url
+     * @return string
+     */
     public function getURL()
     {
         $url = rtrim($_SERVER['REQUEST_URI'], '/');
